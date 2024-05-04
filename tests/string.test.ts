@@ -6,7 +6,7 @@ import {
   ReplaceAll,
   ToNumber,
   Trim,
-} from "string";
+} from "../src/string";
 import { Equal } from "../src/utils";
 import { Expect } from "./test-util";
 

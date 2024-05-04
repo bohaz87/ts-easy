@@ -1,5 +1,5 @@
 import { Equal } from "./../src/utils";
-import { Includes, Join, Merge } from "tuple";
+import { Includes, Join, Merge } from "./../src/tuple";
 import { Expect, ExpectFalse } from "./test-util";
 
 type test_includes = [
