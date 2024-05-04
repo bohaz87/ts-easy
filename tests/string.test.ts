@@ -1,79 +1,82 @@
+import {
+  First,
+  Last,
+  Repeat,
+  Replace,
+  ReplaceAll,
+  ToNumber,
+  Trim,
+} from "string";
 import { Equal } from "../src/utils";
-import { String as Str } from "../src/string";
 import { Expect } from "./test-util";
 
 type test_first = [
-  Expect<Equal<Str.First<"">, never>>,
-  Expect<Equal<Str.First<"", "">, "">>,
-  Expect<Equal<Str.First<"", undefined>, undefined>>,
-  Expect<Equal<Str.First<"a">, "a">>,
-  Expect<Equal<Str.First<"abc">, "a">>,
-  Expect<Equal<Str.First<any>, never>>,
-  Expect<Equal<Str.First<never>, never>>,
-  Expect<Equal<Str.First<"ab" | "cd">, "a" | "c">>,
+  Expect<Equal<First<"">, never>>,
+  Expect<Equal<First<"", "">, "">>,
+  Expect<Equal<First<"", undefined>, undefined>>,
+  Expect<Equal<First<"a">, "a">>,
+  Expect<Equal<First<"abc">, "a">>,
+  Expect<Equal<First<any>, never>>,
+  Expect<Equal<First<never>, never>>,
+  Expect<Equal<First<"ab" | "cd">, "a" | "c">>,
   // @ts-expect-error should be string
-  Expect<Equal<Str.First<unknown>, never>>,
+  Expect<Equal<First<unknown>, never>>,
   // @ts-expect-error should be string
-  Expect<Equal<Str.First<["a"]>, never>>,
+  Expect<Equal<First<["a"]>, never>>,
   // @ts-expect-error should be string
-  Expect<Equal<Str.First<"ab" | "cd" | any>, "a" | "c">>
+  Expect<Equal<First<"ab" | "cd" | any>, "a" | "c">>
 ];
 type test_last = [
-  Expect<Equal<Str.Last<"">, never>>,
-  Expect<Equal<Str.Last<"", "">, "">>,
-  Expect<Equal<Str.Last<"", undefined>, undefined>>,
-  Expect<Equal<Str.Last<"a">, "a">>,
-  Expect<Equal<Str.Last<"abc">, "c">>,
-  Expect<Equal<Str.Last<any>, never>>,
-  Expect<Equal<Str.Last<never>, never>>,
-  Expect<Equal<Str.Last<"ab" | "cd">, "b" | "d">>,
+  Expect<Equal<Last<"">, never>>,
+  Expect<Equal<Last<"", "">, "">>,
+  Expect<Equal<Last<"", undefined>, undefined>>,
+  Expect<Equal<Last<"a">, "a">>,
+  Expect<Equal<Last<"abc">, "c">>,
+  Expect<Equal<Last<any>, never>>,
+  Expect<Equal<Last<never>, never>>,
+  Expect<Equal<Last<"ab" | "cd">, "b" | "d">>,
   // @ts-expect-error should be string
-  Expect<Equal<Str.Last<unknown>, never>>,
+  Expect<Equal<Last<unknown>, never>>,
   // @ts-expect-error should be string
-  Expect<Equal<Str.Last<["a"]>, never>>,
+  Expect<Equal<Last<["a"]>, never>>,
   // @ts-expect-error any is not string
-  Expect<Equal<Str.Last<"ab" | "cd" | any>, "a" | "c">>
+  Expect<Equal<Last<"ab" | "cd" | any>, "a" | "c">>
 ];
 type test_repeat = [
-  Expect<Equal<Str.Repeat<"", 3>, "">>,
-  Expect<Equal<Str.Repeat<"a", 0>, "">>,
-  Expect<Equal<Str.Repeat<"a", 3>, "aaa">>,
-  Expect<Equal<Str.Repeat<"abc", 3>, "abcabcabc">>,
-  Expect<Equal<Str.Repeat<"a" | "b", 3>, "aaa" | "bbb">>,
-  Expect<Equal<Str.Repeat<never, 3>, never>>,
+  Expect<Equal<Repeat<"", 3>, "">>,
+  Expect<Equal<Repeat<"a", 0>, "">>,
+  Expect<Equal<Repeat<"a", 3>, "aaa">>,
+  Expect<Equal<Repeat<"abc", 3>, "abcabcabc">>,
+  Expect<Equal<Repeat<"a" | "b", 3>, "aaa" | "bbb">>,
+  Expect<Equal<Repeat<never, 3>, never>>,
   // @ts-expect-error any is not string
-  Expect<Equal<Str.Repeat<any, 3>, never>>,
+  Expect<Equal<Repeat<any, 3>, never>>,
   // @ts-expect-error unknown not string
-  Expect<Equal<Str.Repeat<unknown, 3>, never>>,
+  Expect<Equal<Repeat<unknown, 3>, never>>,
   // @ts-expect-error array is not string
-  Expect<Equal<Str.Repeat<["a"], 3>, never>>
+  Expect<Equal<Repeat<["a"], 3>, never>>
 ];
 
 type trim_cases = [
-  Expect<Equal<Str.Trim<"str">, "str">>,
-  Expect<Equal<Str.Trim<" str">, "str">>,
-  Expect<Equal<Str.Trim<"     str">, "str">>,
-  Expect<Equal<Str.Trim<"str   ">, "str">>,
-  Expect<Equal<Str.Trim<"     str     ">, "str">>,
-  Expect<Equal<Str.Trim<"   \n\t foo bar \t">, "foo bar">>,
-  Expect<Equal<Str.Trim<"">, "">>,
-  Expect<Equal<Str.Trim<" \n\t ">, "">>
+  Expect<Equal<Trim<"str">, "str">>,
+  Expect<Equal<Trim<" str">, "str">>,
+  Expect<Equal<Trim<"     str">, "str">>,
+  Expect<Equal<Trim<"str   ">, "str">>,
+  Expect<Equal<Trim<"     str     ">, "str">>,
+  Expect<Equal<Trim<"   \n\t foo bar \t">, "foo bar">>,
+  Expect<Equal<Trim<"">, "">>,
+  Expect<Equal<Trim<" \n\t ">, "">>
 ];
 
 type replace_cases = [
-  Expect<Equal<Str.Replace<"foobar", "bar", "foo">, "foofoo">>,
-  Expect<Equal<Str.Replace<"foobarbar", "bar", "foo">, "foofoobar">>,
-  Expect<Equal<Str.Replace<"foobarbar", "", "foo">, "foobarbar">>,
-  Expect<Equal<Str.Replace<"foobarbar", "bar", "">, "foobar">>,
-  Expect<Equal<Str.Replace<"foobarbar", "bra", "foo">, "foobarbar">>,
-  Expect<Equal<Str.Replace<"", "", "">, "">>
+  Expect<Equal<Replace<"foobar", "bar", "foo">, "foofoo">>,
+  Expect<Equal<Replace<"foobarbar", "bar", "foo">, "foofoobar">>,
+  Expect<Equal<Replace<"foobarbar", "", "foo">, "foobarbar">>,
+  Expect<Equal<Replace<"foobarbar", "bar", "">, "foobar">>,
+  Expect<Equal<Replace<"foobarbar", "bra", "foo">, "foobarbar">>,
+  Expect<Equal<Replace<"", "", "">, "">>
 ];
 
-type ReplaceAll<
-  S extends string,
-  F extends string,
-  T extends string
-> = Str.ReplaceAll<S, F, T>;
 type replaceall_cases = [
   Expect<Equal<ReplaceAll<"foobar", "bar", "foo">, "foofoo">>,
   Expect<Equal<ReplaceAll<"foobar", "bag", "foo">, "foobar">>,
@@ -87,11 +90,11 @@ type replaceall_cases = [
 ];
 
 type tonumber_cases = [
-  Expect<Equal<Str.ToNumber<"">, never>>,
-  Expect<Equal<Str.ToNumber<"0">, 0>>,
-  Expect<Equal<Str.ToNumber<"5">, 5>>,
-  Expect<Equal<Str.ToNumber<"12">, 12>>,
-  Expect<Equal<Str.ToNumber<"27">, 27>>,
-  Expect<Equal<Str.ToNumber<"18@7_$%">, never>>,
-  Expect<Equal<Str.ToNumber<"123456789">, 123456789>>
+  Expect<Equal<ToNumber<"">, never>>,
+  Expect<Equal<ToNumber<"0">, 0>>,
+  Expect<Equal<ToNumber<"5">, 5>>,
+  Expect<Equal<ToNumber<"12">, 12>>,
+  Expect<Equal<ToNumber<"27">, 27>>,
+  Expect<Equal<ToNumber<"18@7_$%">, never>>,
+  Expect<Equal<ToNumber<"123456789">, 123456789>>
 ];

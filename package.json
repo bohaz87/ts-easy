@@ -1,6 +1,7 @@
 {
   "name": "ts-easy",
   "version": "0.0.1",
+  "main": "ts-util.d.ts",
   "scripts": {
     "build": "tsc",
     "test": "eslint",
