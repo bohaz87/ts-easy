@@ -1,6 +1,6 @@
 {
   "name": "ts-easy",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "types": "./lib/index.d.ts",
   "exports": {
     ".": "./lib/index.d.ts",
