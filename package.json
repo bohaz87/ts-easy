@@ -14,7 +14,7 @@
     "test": "eslint",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
-    "doc": "typedoc src/"
+    "docs": "typedoc src/"
   },
   "dependencies": {
     "typedocs": "^0.6.7",
