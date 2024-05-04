@@ -1,7 +1,14 @@
 {
   "name": "ts-easy",
   "version": "0.0.1",
-  "main": "ts-util.d.ts",
+  "types": "./lib/index.d.ts",
+  "exports": {
+    ".": "./lib/index.d.ts",
+    "./tuple": "./lib/tuple.d.ts",
+    "./string": "./lib/string.d.ts",
+    "./utils": "./lib/utils.d.ts",
+    "./union": "./lib/union.d.ts"
+  },
   "scripts": {
     "build": "tsc",
     "test": "eslint",
