@@ -1,6 +1,17 @@
 import { IsUnion, ToTuple } from "./union";
 import { Equal } from "./utils";
 
+/**
+ * Return trun if array include the item, like Array.includes
+ *
+ * @example
+ * ```typescript
+ * import { Includes } from 'ts-easy/tuple';
+ *
+ * type Included = Includes<[1, 2, 3], [3]> // true
+ * type Included = Includes<[any, never, unknown], [never]> // true
+ * ```
+ */
 export type Includes<T extends readonly any[], U> = T extends readonly [
   infer First,
   ...infer Rest
@@ -32,23 +43,35 @@ export type IncludesAll<T extends any[][], V> = T extends [
     : IncludesAll<R, V>
   : true;
 
-type _JoinArray<
+type _ToInter<
   T extends any[],
   E extends any[][],
   K extends any[] = []
 > = T extends [infer V, ...infer R extends any[]]
   ? IncludesAll<E, V> extends true
-    ? _JoinArray<R, E, [...K, V]>
-    : _JoinArray<R, E, K>
+    ? _ToInter<R, E, [...K, V]>
+    : _ToInter<R, E, K>
   : K;
 
-export type Join<T extends any[]> = IsUnion<T> extends false
-  ? T
-  : ToTuple<T> extends infer TT extends any[][]
-  ? Merge<TT> extends infer All extends any[]
-    ? _JoinArray<All, TT>
-    : never
-  : never;
+/**
+ * Get the intersection of the array union.
+ *
+ * The item order of the result depends on the item order of the first element.
+ *
+ * @example
+ * type Inter = ToIntersection<[1, 2, 3] | [3, 4, 5]> // [3]
+ *
+ * // cover the type param to union first if it's an array
+ * type Inter = ToIntersection<[[3, any, never], [4, never, any]][number]> // [any, never]
+ */
+export type ToIntersection<ArrayUnion extends any[]> =
+  IsUnion<ArrayUnion> extends false
+    ? ArrayUnion
+    : ToTuple<ArrayUnion> extends infer TT extends any[][]
+    ? Merge<TT> extends infer All extends any[]
+      ? _ToInter<All, TT>
+      : never
+    : never;
 
 export type IsSubArray<T extends any[], K extends readonly any[]> = T extends [
   ...K,
@@ -76,3 +99,22 @@ export type First<T, Default = never> = T extends [infer F, ...infer _R]
 export type Last<T, Default = never> = T extends [...infer _F, infer L]
   ? L
   : Default;
+
+/**
+ * Join the array items to string, like javascript Array.prototype.join
+ *
+ * @example
+ * type str = Join<['a', 'b', 'c']> // 'a, b, c'
+ *
+ * type str = Join<['a', 'b', 'c'] '-'> // 'a-b-c'
+ */
+export type Join<
+  T extends (string | number)[],
+  S extends string = ", ",
+  R extends string = ""
+> = T extends [
+  infer A extends string | number,
+  ...infer B extends (string | number)[]
+]
+  ? Join<B, S, `${R}${R extends "" ? "" : S}${A}`>
+  : R;
