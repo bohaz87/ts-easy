@@ -1,5 +1,7 @@
 # Typescript Easy
 
+Docs: [https://bohaz87.github.io/ts-easy/types/](https://bohaz87.github.io/ts-easy/types/)
+
 ```javascript
 import { Repeat } from "ts-easy/string";
 
