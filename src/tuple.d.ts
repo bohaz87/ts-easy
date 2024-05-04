@@ -1,7 +1,7 @@
 import { Union } from "./union";
 import { Equal } from "./utils";
 
-export namespace Tuple {
+export module Tuple {
   export type Includes<T extends readonly any[], U> = T extends readonly [
     infer First,
     ...infer Rest
@@ -65,44 +65,19 @@ export namespace Tuple {
     ? IsSubArray<R, K>
     : false;
 
-  type _RepeatString<
-    S extends string,
-    N extends number,
-    C extends number[] = [],
-    R extends string = ""
-  > = C["length"] extends N ? R : _RepeatString<S, N, Push<C, 0>, `${R}${S}`>;
-
-  export type RepeatString<S extends string, N extends number> = S extends ""
-    ? S
-    : _RepeatString<S, N>;
-
   export type Push<T extends any[], V> = [...T, V];
 
   /**
-   * Get first string character or first array item.
+   * Get first item.
    */
-  export type First<T, Default = never> = T extends string
-    ? T extends `${infer F}${infer _R}`
-      ? F
-      : Default
-    : T extends any[]
-    ? T extends [infer F, ...infer _R]
-      ? F
-      : Default
-    : never;
+  export type First<T, Default = never> = T extends [infer F, ...infer _R]
+    ? F
+    : Default;
 
   /**
-   * Get last string character or last array item.
+   * Get last item.
    */
-  export type Last<T, Default = never> = T extends string
-    ? T extends `${infer A}${infer L}`
-      ? L extends ""
-        ? A
-        : Last<L, Default>
-      : Default
-    : T extends any[]
-    ? T extends [...infer _F, infer L]
-      ? L
-      : Default
-    : never;
+  export type Last<T, Default = never> = T extends [...infer _F, infer L]
+    ? L
+    : Default;
 }

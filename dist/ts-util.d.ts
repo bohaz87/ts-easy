@@ -1,3 +1,22 @@
+declare module "string" {
+    export namespace Str {
+        /**
+         * Get first character
+         */
+        export type First<S extends string, Default = never> = S extends `${infer F}${infer _R}` ? F : Default;
+        /**
+         * Get last character
+         */
+        export type Last<S extends string, Default = never> = S extends `${infer H}${infer L}` ? L extends "" ? H : Last<L, Default> : Default;
+        type _RepeatString<S extends string, N extends number, C extends number[] = [], R extends string = ""> = C["length"] extends N ? R : _RepeatString<S, N, [...C, 0], `${R}${S}`>;
+        /**
+         * Repeat a string N times
+         */
+        export type Repeat<S extends string, N extends number> = S extends "" ? S : _RepeatString<S, N>;
+        export type Trim<S extends string, Space extends string = " " | "\n" | "\t"> = S extends `${Space}${infer R}` | `${infer R}${Space}` ? Trim<R> : S;
+        export {};
+    }
+}
 declare module "union" {
     export namespace Union {
         export type ToIntersection<U> = (U extends U ? (a: U) => 0 : never) extends (a: infer I) => 0 ? I : never;
@@ -45,17 +64,15 @@ declare module "tuple" {
         type _JoinArray<T extends any[], E extends any[][], K extends any[] = []> = T extends [infer V, ...infer R extends any[]] ? IncludesAll<E, V> extends true ? _JoinArray<R, E, [...K, V]> : _JoinArray<R, E, K> : K;
         export type Join<T extends any[]> = Union.IsUnion<T> extends false ? T : Union.ToTuple<T> extends infer TT extends any[][] ? Merge<TT> extends infer All extends any[] ? _JoinArray<All, TT> : never : never;
         export type IsSubArray<T extends any[], K extends readonly any[]> = T extends [...K, ...infer _R] ? true : T["length"] extends K["length"] ? false : T extends [infer _A, ...infer R] ? IsSubArray<R, K> : false;
-        type _RepeatString<S extends string, N extends number, C extends number[] = [], R extends string = ""> = C["length"] extends N ? R : _RepeatString<S, N, Push<C, 0>, `${R}${S}`>;
-        export type RepeatString<S extends string, N extends number> = S extends "" ? S : _RepeatString<S, N>;
         export type Push<T extends any[], V> = [...T, V];
         /**
-         * Get first string character or first array item.
+         * Get first item.
          */
-        export type First<T, Default = never> = T extends string ? T extends `${infer F}${infer _R}` ? F : Default : T extends any[] ? T extends [infer F, ...infer _R] ? F : Default : never;
+        export type First<T, Default = never> = T extends [infer F, ...infer _R] ? F : Default;
         /**
-         * Get last string character or last array item.
+         * Get last item.
          */
-        export type Last<T, Default = never> = T extends string ? T extends `${infer A}${infer L}` ? L extends "" ? A : Last<L, Default> : Default : T extends any[] ? T extends [...infer _F, infer L] ? L : Default : never;
+        export type Last<T, Default = never> = T extends [...infer _F, infer L] ? L : Default;
         export {};
     }
 }

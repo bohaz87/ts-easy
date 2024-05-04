@@ -1,4 +1,4 @@
-export namespace Union {
+export module Union {
   export type ToIntersection<U> = (U extends U ? (a: U) => 0 : never) extends (
     a: infer I
   ) => 0
