@@ -19,6 +19,11 @@ export type OneOf<T extends boolean[]> = T extends [
     : OneOf<B>
   : false;
 
+/**
+ * Check if all types are false
+ *
+ * @returns true | false
+ */
 export type NoneOf<T extends boolean[]> = T extends [
   infer A,
   ...infer B extends boolean[]

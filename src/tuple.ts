@@ -59,10 +59,19 @@ type _ToInter<
  * The item order of the result depends on the item order of the first element.
  *
  * @example
+ * ```typescript
  * type Inter = ToIntersection<[1, 2, 3] | [3, 4, 5]> // [3]
+ * ```
  *
- * // cover the type param to union first if it's an array
- * type Inter = ToIntersection<[[3, any, never], [4, never, any]][number]> // [any, never]
+ *
+ * @example
+ *
+ * Convert the type param to union first if it's an array using T[number]
+ *
+ * ```typescript
+ * type Arr = [[3, any, never], [4, never, any]]
+ * type Inter = ToIntersection<T[number]> // [any, never]
+ * ```
  */
 export type ToIntersection<ArrayUnion extends any[]> =
   IsUnion<ArrayUnion> extends false

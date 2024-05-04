@@ -16,14 +16,13 @@
     "lint:fix": "eslint --fix",
     "docs": "typedoc src/"
   },
-  "dependencies": {
-    "typedocs": "^0.6.7",
-    "typescript": "^5.4.5"
-  },
+  "dependencies": {},
   "devDependencies": {
     "eslint": "^9.2.0",
     "typedoc": "^0.25.13",
-    "typescript-eslint": "^7.8.0"
+    "typescript-eslint": "^7.8.0",
+    "typedocs": "^0.6.7",
+    "typescript": "^5.4.5"
   },
   "repository": {
     "type": "git",
